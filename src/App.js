@@ -1,25 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {SelectGameModeScreen} from "./screen/SelectGameModeScreen";
+import {KeepNumberScreen} from "./screen/KeepNumberScreen";
+import {GuessNumberScreen} from "./screen/GuessNumberScreen";
+import {EndGameScreen} from "./screen/EndGameScreen";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={'/'} element={<SelectGameModeScreen/>}/>
+                    <Route path={'/guess-number'} element={<GuessNumberScreen/>}/>
+                    <Route path={'/keep-number'} element={<KeepNumberScreen/>}/>
+                    <Route path={'/end-game'} element={<EndGameScreen/>}/>
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;

@@ -1,7 +1,9 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import './index.css';
 
 const maxCount = 7;
+
 function getRandomNumber() {
     return Math.round(Math.random() * 99 + 1)
 }
@@ -11,17 +13,17 @@ export function GuessNumberScreen() {
     const [didUserWin, setDidUserWin] = useState(null);
     const [guessCount, setGuessCount] = useState(1);
     const [guessValue, setGuessValue] = useState('');
-    const [hint, setHint] = useState(null);
     const [number, setNumber] = useState(null);
     const navigate = useNavigate();
+    const [value, setValue] = useState(null);
 
     const onStartClick = () => {
         onRetryClick();
     }
 
     const onGuessClick = () => {
-        const value = parseInt(guessValue)
-        if (value === number) {
+        const newValue = parseInt(guessValue);
+        if (newValue === number) {
             setDidUserWin(true);
             return;
         }
@@ -29,15 +31,14 @@ export function GuessNumberScreen() {
             setDidUserWin(false);
             return;
         }
-        setHint(value > number ? `${value} is too much than my number. Try again.` : `${value} is too less than my number. Try again.`)
         setGuessCount(guessCount + 1);
+        setValue(newValue)
     }
 
     const onRetryClick = () => {
         setIsStarted(true);
         setDidUserWin(null);
         setGuessCount(1);
-        setHint(null);
         setNumber(getRandomNumber());
     }
 
@@ -53,14 +54,6 @@ export function GuessNumberScreen() {
     if (didUserWin !== null) {
         navigate(`/guess-number-end-game?win=${didUserWin}&number=${number}`)
         return null;
-        // return (
-        //     <div className='container'>
-        //         {
-        //             didUserWin ? `You Win in ${guessCount}!` : `You Lose.${number}`
-        //         }
-        //         <button onClick={() => onRetryClick()}>Retry</button>
-        //     </div>
-        // )
     }
 
     return (
@@ -72,7 +65,17 @@ export function GuessNumberScreen() {
                        type='number' style={{width: '40px', marginRight: '5px'}}/>
                 <button onClick={() => onGuessClick()}>Guess {guessCount}/7</button>
             </p>
-            <div>{hint}</div>
+            <div>
+                {value !== null ?
+                    <span>
+                        My number is
+                        <span className={value > number ? 'lower-hint' : 'higher-hint'}>
+                            {' '}{value > number ? 'less' : 'more'} than{' '}
+                        </span>
+                        {value}. Try again.
+                    </span> : ''
+                }
+            </div>
         </div>
     )
 }

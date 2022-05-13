@@ -1,20 +1,27 @@
 import './index.css';
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const maxGuessCount = 7;
 const maxGuess = 100;
 const minGuess = 0;
 
 export function KeepNumberScreen() {
-    const [currentScreen, setCurrentScreen] = useState('main_screen');
+    // const [currentScreen, setCurrentScreen] = useState('main_screen');
+    const [isStarted, setIsStarted] = useState(false);
     const [guess, setGuess] = useState(maxGuess / 2);
     const [upperLimit, setUpperLimit] = useState(maxGuess);
     const [lowerLimit, setLowerLimit] = useState(minGuess);
     const [guessCount, setGuessCount] = useState(1);
-    const [didWin, setDidWin] = useState(false);
+    const [didWin, setDidWin] = useState(null);
+    const navigate = useNavigate();
+
+    // const onStartClick = () => {
+    //     setCurrentScreen('game_screen');
+    // }
 
     const onStartClick = () => {
-        setCurrentScreen('game_screen');
+        setIsStarted(true);
     }
 
     const onUpClick = () => {
@@ -33,29 +40,43 @@ export function KeepNumberScreen() {
 
     const onYesClick = () => {
         setDidWin(true);
-        setCurrentScreen('end_screen');
+        // setCurrentScreen('end_screen');
     }
 
     const onNoClick = () => {
         setDidWin(false);
-        setCurrentScreen('end_screen');
+        // setCurrentScreen('end_screen');
     }
 
-    if (currentScreen === 'main_screen') {
+    // if (currentScreen === 'main_screen') {
+    //     return (
+    //         <div className='container'>
+    //             <div>KEEP NUMBER (1-100)</div>
+    //             <button onClick={onStartClick}>START</button>
+    //         </div>
+    //     )
+    // }
+
+    if (!isStarted) {
         return (
             <div className='container'>
                 <div>KEEP NUMBER (1-100)</div>
-                <button onClick={onStartClick}>START</button>
+                <button onClick={() => onStartClick()}>START</button>
             </div>
         )
     }
+    // if(currentScreen === 'end_screen') {
+    //     return (
+    //         <div className='container'>
+    //             {didWin ? <div>I Win!</div> : <div>I Fail</div>}
+    //         </div>
+    //     )
+    // }
 
-    if(currentScreen === 'end_screen') {
-        return (
-            <div className='container'>
-                {didWin ? <div>I Win!</div> : <div>I Fail</div>}
-            </div>
-        )
+
+    if (didWin !== null) {
+        navigate(`/keep-number-end-game?win=${didWin}`)
+        return null;
     }
 
     return (

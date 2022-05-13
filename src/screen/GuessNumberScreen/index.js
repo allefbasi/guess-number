@@ -2,7 +2,6 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 const maxCount = 7;
-
 function getRandomNumber() {
     return Math.round(Math.random() * 99 + 1)
 }
@@ -14,7 +13,6 @@ export function GuessNumberScreen() {
     const [guessValue, setGuessValue] = useState('');
     const [hint, setHint] = useState(null);
     const [number, setNumber] = useState(null);
-
     const navigate = useNavigate();
 
     const onStartClick = () => {
@@ -31,7 +29,7 @@ export function GuessNumberScreen() {
             setDidUserWin(false);
             return;
         }
-        setHint(value > number ? 'too much' : 'too less')
+        setHint(value > number ? `${value} is too much than my number. Try again.` : `${value} is too less than my number. Try again.`)
         setGuessCount(guessCount + 1);
     }
 
@@ -53,7 +51,7 @@ export function GuessNumberScreen() {
     }
 
     if (didUserWin !== null) {
-        navigate(`/end-game?win=${didUserWin}`)
+        navigate(`/guess-number-end-game?win=${didUserWin}&number=${number}`)
         return null;
         // return (
         //     <div className='container'>

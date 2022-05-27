@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import './index.css';
 
 const maxCount = 7;
-
+const guessMaxLength = 2;
 function getRandomNumber() {
     return Math.round(Math.random() * 99 + 1)
 }
@@ -46,7 +46,8 @@ export function GuessNumberScreen() {
         return (
             <div className='container'>
                 <div>GUESS NUMBER (1-100)</div>
-                <button onClick={() => onStartClick()}>START</button>
+                <button className='start-button' onClick={() => onStartClick()}>START</button>
+                <span onClick={()=>navigate('/')} style={{fontSize:'15px', marginTop:'7px', cursor:'pointer'}}> or back to menu</span>
             </div>
         )
     }
@@ -58,13 +59,14 @@ export function GuessNumberScreen() {
 
     return (
         <div className='container'>
-            <p>
-                The Number Is:
+            <div className='guess-number-game-div'>
+                <span>The Number Is:</span>
                 <input value={guessValue}
+                       onInput={guessValue.length > guessMaxLength ? setGuessValue(guessValue.slice(0, guessMaxLength)) : null}
                        onChange={(e) => setGuessValue(e.target.value)}
-                       type='number' style={{width: '40px', marginRight: '5px'}}/>
-                <button onClick={() => onGuessClick()}>Guess {guessCount}/7</button>
-            </p>
+                       type='number'/>
+                <button disabled={guessValue===''} className='guess-button' onClick={() => onGuessClick()}>Guess {guessCount}/7</button>
+            </div>
             <div>
                 {value !== null ?
                     <span>

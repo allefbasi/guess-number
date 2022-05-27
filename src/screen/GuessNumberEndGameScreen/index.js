@@ -7,12 +7,12 @@ export function GuessNumberEndGameScreen() {
     const number = searchParam.get('number')
     const navigate = useNavigate();
     const onRestartClick = () => {
-        navigate('/');
+        navigate('/guess-number');
     }
     return (
         <div className='container'>
-            End game. {win === 'true' ? 'You win!' : `You lost. The number was ${number}.`}
-            <button onClick={() => onRestartClick()}> RESTART</button>
+            {win === 'true' ? 'You win!' : `End game. You lost. The number was ${number}.`}
+            <button className='start-button' onClick={() => onRestartClick()}> RESTART</button>
         </div>
     )
 }

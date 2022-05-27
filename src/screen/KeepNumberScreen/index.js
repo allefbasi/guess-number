@@ -16,10 +16,6 @@ export function KeepNumberScreen() {
     const [didWin, setDidWin] = useState(null);
     const navigate = useNavigate();
 
-    // const onStartClick = () => {
-    //     setCurrentScreen('game_screen');
-    // }
-
     const onStartClick = () => {
         setIsStarted(true);
     }
@@ -40,39 +36,21 @@ export function KeepNumberScreen() {
 
     const onYesClick = () => {
         setDidWin(true);
-        // setCurrentScreen('end_screen');
     }
 
     const onNoClick = () => {
         setDidWin(false);
-        // setCurrentScreen('end_screen');
     }
-
-    // if (currentScreen === 'main_screen') {
-    //     return (
-    //         <div className='container'>
-    //             <div>KEEP NUMBER (1-100)</div>
-    //             <button onClick={onStartClick}>START</button>
-    //         </div>
-    //     )
-    // }
 
     if (!isStarted) {
         return (
             <div className='container'>
                 <div>KEEP NUMBER (1-100)</div>
-                <button onClick={() => onStartClick()}>START</button>
+                <button className='start-button' onClick={() => onStartClick()}>START</button>
+                <span onClick={()=>navigate('/')} style={{fontSize:'15px', marginTop:'7px', cursor:'pointer'}}> or back to menu</span>
             </div>
         )
     }
-    // if(currentScreen === 'end_screen') {
-    //     return (
-    //         <div className='container'>
-    //             {didWin ? <div>I Win!</div> : <div>I Fail</div>}
-    //         </div>
-    //     )
-    // }
-
 
     if (didWin !== null) {
         navigate(`/keep-number-end-game?win=${didWin}`)
@@ -81,13 +59,21 @@ export function KeepNumberScreen() {
 
     return (
         <div className='container'>
-            <div>GUESS {guessCount}/7</div>
-            <button onClick={onUpClick} disabled={guessCount === maxGuessCount}>UP</button>
+            <div style={{fontSize:'20px'}}>Guess {guessCount}/7</div>
             <div>IS IT {guess}?</div>
-            <button onClick={onDownClick} disabled={guessCount === maxGuessCount}>DOWN</button>
             <div>
-                <button onClick={onYesClick}>YES</button>
-                {guessCount === maxGuessCount ? <button onClick={onNoClick}>NO</button> : null}
+                <button className='guess-button' onClick={onYesClick}>YES!</button>
+                {guessCount === maxGuessCount ? <button className='no-button' onClick={onNoClick}>NO</button> : null}
+                {
+                    guessCount < maxGuessCount ?
+                        <span>
+                            <span style={{fontSize:'20px'}}> or</span>
+                            <button className='up-button' onClick={onUpClick}>UP</button>
+                            <button className='down-button' onClick={onDownClick}>DOWN</button>
+                        </span>:null
+                }
+
+
             </div>
 
         </div>

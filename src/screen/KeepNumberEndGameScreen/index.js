@@ -6,12 +6,14 @@ export function KeepNumberEndGameScreen() {
     const win = searchParam.get('win')
     const navigate = useNavigate();
     const onRestartClick = () => {
-        navigate('/');
+        navigate('/keep-number');
     }
     return (
         <div className='container'>
-            End game. {win === 'true' ? 'I win!' : 'I lost.'}
-            <button onClick={() => onRestartClick()}> RESTART</button>
+            {win === 'true' ? 'I win!' : 'End game .I lost.'}
+            <div>
+                <button className='start-button' onClick={() => onRestartClick()}> RESTART</button>
+            </div>
         </div>
     )
 }

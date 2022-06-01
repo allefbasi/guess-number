@@ -33,6 +33,7 @@ export function GuessNumberScreen() {
         }
         setGuessCount(guessCount + 1);
         setValue(newValue)
+        setGuessValue('');
     }
 
     const onRetryClick = () => {
